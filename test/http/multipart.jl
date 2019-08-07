@@ -1,4 +1,15 @@
-module test_http_multipart
+module test_http_multipart_basic
+
+using Test
+using HTTP: Multipart
+
+part1 = Multipart("filename", IOBuffer())
+@test eof(part1)
+
+end # module test_http_multipart_basic
+
+
+module test_http_multipart_scanner
 
 using Test
 using HTTP: Multipart
@@ -94,11 +105,11 @@ boundary = "---------------------------182023285717490760841965583652"
 scanner = FormScanner(Vector{UInt8}(reqbody), string("--", boundary))
 body_params = scan(scanner)
 
-@test  body_params[1][1] == "image"
+@test body_params[1][1] == "image"
 multipart = body_params[1][2]
 @test multipart isa Multipart
 @test String(read(multipart.data)) == "......JFIF.............C.........."
 
 @test body_params[2] == ("num" => "2")
 
-end # module test_http_multipart
+end # module test_http_multipart_scanner

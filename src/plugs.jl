@@ -3,15 +3,18 @@ module Plug # module Bukdu
 using ..Deps
 using ..Bukdu: Assoc, AbstractPlug, ApplicationController, AbstractRender, Render
 
-include("plugs/logger.jl")
+function plug
+end
+
+using Logging: AbstractLogger
+include("plugs/Loggers.jl")
+
 include("plugs/conn.jl")
 
 include("plugs/ContentParsers.jl")
 include("plugs/parsers.jl")
-include("plugs/static.jl")
 
-function plug(::Type{T}; kwargs...) where {T <: AbstractPlug}
-end
+include("plugs/static.jl")
 
 end # module Bukdu.Plug
 
