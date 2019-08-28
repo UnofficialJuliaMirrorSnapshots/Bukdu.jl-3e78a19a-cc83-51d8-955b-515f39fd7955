@@ -15,7 +15,6 @@ julia:
 
 script:
   -                 julia --color=yes --project -e 'using Pkg; pkg"instantiate"; pkg"precompile"; Pkg.test(coverage=true)'
-  -                 julia --color=yes --project -e 'using Pkg; pkg"dev Jive"' # Jive v0.1.14
   - JIVE_PROCS=auto julia --color=yes --project -e 'using Pkg; pkg"instantiate"; pkg"precompile"; Pkg.test()'
 
 after_success:
