@@ -2,8 +2,7 @@ module Router # Bukdu
 
 using ..Bukdu.Naming
 using ..Bukdu.Deps
-using ..Bukdu.Routing
-using ..Bukdu: DirectRequest, request_handler
+using ..Bukdu: handle_request
 
 """
     Router.call
@@ -15,21 +14,19 @@ function call
 end
 
 """
-    Router.call(verb, path::String, headers=[], body=UInt8[])
+    Router.call(verb, path::String, headers=[], body=UInt8[])::NamedTuple{(:got, :resp, :route)}
 """
-function call(verb, path::String, headers=[], body=UInt8[])
+function call(verb, path::String, headers=[], body=UInt8[])::NamedTuple{(:got, :resp, :route)}
     method = Naming.verb_name(verb)
     req = Deps.Request(method, path, headers, body)
     call(req)
 end
 
 """
-    Router.call(req::Deps.Request)
+    Router.call(req::Deps.Request)::NamedTuple{(:got, :resp, :route)}
 """
-function call(req::Deps.Request)
-    route = Routing.handle(req)
-    dreq = DirectRequest(req)
-    request_handler(route, dreq) # (got=, resp=)
+function call(req::Deps.Request)::NamedTuple{(:got, :resp, :route)}
+    handle_request(req)
 end
 
 
